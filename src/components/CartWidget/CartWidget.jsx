@@ -3,8 +3,7 @@ import { useCart } from "../../context/CartContext";
 import "./CartWidget.css";
 
 const CartWidget = () => {
-  const { getTotalItems } = useCart();
-  const totalItems = getTotalItems();
+  const { totalItems } = useCart();
 
   return (
     <Link to="/cart" className="cart-widget">
