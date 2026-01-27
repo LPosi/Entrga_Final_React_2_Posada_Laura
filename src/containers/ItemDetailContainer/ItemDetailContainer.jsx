@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ItemDetail from "../../components/ItemDetail/ItemDetail";
+import { useEffect, useState } from "react";
 import { getProductById } from "../../firebase/services";
-import "./ItemDetailContainer.css";
+import ItemDetail from "../../components/ItemDetail/ItemDetail";
 
 const ItemDetailContainer = () => {
-  const { itemId } = useParams();
+  const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,44 +13,24 @@ const ItemDetailContainer = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        if (itemId) {
-          const productData = await getProductById(itemId);
-          setProduct(productData);
-        }
+        const data = await getProductById(productId);
+        if (!data) throw new Error("Producto no encontrado");
+        setProduct(data);
       } catch (err) {
-        console.error("Error fetching product:", err);
-        setError("Error al cargar el producto");
+        console.error("Error cargando producto:", err);
+        setError("No se pudo cargar el producto. Intenta nuevamente.");
       } finally {
         setLoading(false);
       }
     };
-
     fetchProduct();
-  }, [itemId]);
+  }, [productId]);
 
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Cargando producto...</p>
-      </div>
-    );
-  }
+  if (loading) return <p>Cargando producto...</p>;
+  if (error) return <p>{error}</p>;
+  if (!product) return <p>Producto no encontrado.</p>;
 
-  if (error) {
-    return (
-      <div className="error-container">
-        <h2>{error}</h2>
-        <p>Intenta recargar la página</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="item-detail-page">
-      <ItemDetail product={product} />
-    </div>
-  );
+  return <ItemDetail product={product} />;
 };
 
 export default ItemDetailContainer;

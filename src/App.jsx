@@ -15,31 +15,12 @@ function App() {
         <Navbar />
         <main className="main-content">
           <Routes>
-            {/* Home puede mostrar destacados o bienvenida */}
             <Route path="/" element={<Home />} />
-
-            {/* Todos los productos */}
             <Route path="/products" element={<ItemListContainer />} />
-
-            {/* Productos por categoría */}
-            <Route
-              path="/category/:categoryId"
-              element={<ItemListContainer />}
-            />
-
-            {/* Detalle de producto */}
-            <Route
-              path="/product/:productId"
-              element={<ItemDetailContainer />}
-            />
-
-            {/* Carrito */}
+            <Route path="/category/:categoryId" element={<ItemListContainer />} />
+            <Route path="/product/:productId" element={<ItemDetailContainer />} />
             <Route path="/cart" element={<CartPage />} />
-
-            {/* Checkout */}
             <Route path="/checkout" element={<Checkout />} />
-
-            {/* Ruta no encontrada */}
             <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
           </Routes>
         </main>

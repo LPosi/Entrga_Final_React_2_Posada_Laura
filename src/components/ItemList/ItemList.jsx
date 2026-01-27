@@ -152,7 +152,7 @@ const ItemList = ({ products = [] }) => {
             </button>
             <span className="page-info">Página 1 de 1</span>
             <button className="page-btn" disabled>
-              Siguiente → 
+              Siguiente →
             </button>
           </div>
         </>

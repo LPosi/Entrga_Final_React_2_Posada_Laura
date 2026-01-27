@@ -1,63 +1,54 @@
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
-import { useCart } from "../../context/CartContext";
-import CartComponent from "../../components/Cart/Cart";
 import "./CartPage.css";
 
 const CartPage = () => {
-  const { cart, getTotalItems, getTotalPrice } = useCart();
-  const totalItems = getTotalItems();
+  const { cart, removeFromCart, clearCart, totalItems, totalPrice } = useContext(CartContext);
 
-  if (totalItems === 0) {
+  if (cart.length === 0) {
     return (
-      <div className="cart-empty-container">
-        <div className="cart-empty-content">
-          <h2>🛒 Tu carrito está vacío</h2>
-          <p>Parece que no has agregado productos todavía.</p>
-          <Link to="/products" className="btn-primary">
-            Ver productos
-          </Link>
-        </div>
+      <div className="cart-empty">
+        <h2>Tu carrito está vacío</h2>
+        <p>Agrega productos para poder comprarlos.</p>
+        <Link to="/products">
+          <button className="continue-shopping-btn">Ver productos</button>
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="cart-page">
-      <div className="cart-page-header">
-        <h1>Tu Carrito de Compras</h1>
-        <span className="cart-items-count">{totalItems} productos</span>
+    <div className="cart-page-container">
+      <h2>Carrito de compras</h2>
+      <div className="cart-items">
+        {cart.map((item) => (
+          <div key={item.id} className="cart-item">
+            <div className="item-info">
+              <span className="item-name">{item.title || item.name}</span>
+              <span className="item-quantity">Cantidad: {item.quantity}</span>
+              <span className="item-price">Precio: ${item.price}</span>
+            </div>
+            <button
+              className="remove-item-btn"
+              onClick={() => removeFromCart(item.id)}
+            >
+              Eliminar
+            </button>
+          </div>
+        ))}
       </div>
 
-      <div className="cart-page-content">
-        <div className="cart-items-section">
-          <CartComponent />
-        </div>
-
-        <div className="cart-summary-section">
-          <div className="cart-summary-card">
-            <h3>Resumen del Pedido</h3>
-            <div className="summary-row">
-              <span>Productos ({totalItems})</span>
-              <span>${getTotalPrice().toFixed(2)}</span>
-            </div>
-            <div className="summary-row">
-              <span>Envío</span>
-              <span className="free">Gratis</span>
-            </div>
-            <div className="summary-divider"></div>
-            <div className="summary-total">
-              <span>Total</span>
-              <span className="total-price">${getTotalPrice().toFixed(2)}</span>
-            </div>
-
-            <Link to="/checkout" className="checkout-btn">
-              Proceder al Pago
-            </Link>
-
-            <Link to="/products" className="continue-shopping">
-              ← Seguir comprando
-            </Link>
-          </div>
+      <div className="cart-summary">
+        <p>Total de productos: {totalItems}</p>
+        <p>Total a pagar: ${totalPrice.toFixed(2)}</p>
+        <div className="cart-actions">
+          <button className="clear-cart-btn" onClick={clearCart}>
+            Vaciar carrito
+          </button>
+          <Link to="/checkout">
+            <button className="checkout-btn">Ir a pagar</button>
+          </Link>
         </div>
       </div>
     </div>

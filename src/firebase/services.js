@@ -1,95 +1,37 @@
-import {
-  collection,
-  getDocs,
-  getDoc,
-  doc,
-  query,
-  where,
-  addDoc,
-  Timestamp,
-} from "firebase/firestore";
-import { db } from "./config";
+import { collection, getDocs, getDoc, doc, query, where } from "firebase/firestore";
+import { db } from "./firebaseConfig";
 
 export const getProducts = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, "products"));
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const productsCollection = collection(db, "products");
+    const snapshot = await getDocs(productsCollection);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
-    console.error("Error getting products:", error);
-    throw error;
+    console.error("Error al obtener productos:", error);
+    return [];
   }
 };
 
-export const getProductById = async (id) => {
+export const getProductsByCategory = async (categoryId) => {
   try {
-    const docRef = doc(db, "products", id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      return {
-        id: docSnap.id,
-        ...docSnap.data(),
-      };
-    } else {
-      throw new Error("Producto no encontrado");
-    }
+    const productsCollection = collection(db, "products");
+    const q = query(productsCollection, where("category", "==", categoryId));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
-    console.error("Error getting product by ID:", error);
-    throw error;
+    console.error("Error al obtener productos por categoría:", error);
+    return [];
   }
 };
 
-export const getProductsByCategory = async (category) => {
+export const getProductById = async (productId) => {
   try {
-    const q = query(
-      collection(db, "products"),
-      where("category", "==", category)
-    );
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const productRef = doc(db, "products", productId);
+    const snapshot = await getDoc(productRef);
+    if (!snapshot.exists()) return null;
+    return { id: snapshot.id, ...snapshot.data() };
   } catch (error) {
-    console.error("Error getting products by category:", error);
-    throw error;
-  }
-};
-
-export const createOrder = async (orderData) => {
-  try {
-    const orderWithTimestamp = {
-      ...orderData,
-      createdAt: Timestamp.now(),
-      status: "pending",
-    };
-
-    const docRef = await addDoc(collection(db, "orders"), orderWithTimestamp);
-    return docRef.id;
-  } catch (error) {
-    console.error("Error creating order:", error);
-    throw error;
-  }
-};
-
-export const checkStock = async (cartItems) => {
-  try {
-    const stockPromises = cartItems.map(async (item) => {
-      const product = await getProductById(item.id);
-      return {
-        id: item.id,
-        requested: item.quantity,
-        available: product.stock,
-        hasStock: item.quantity <= product.stock,
-      };
-    });
-
-    return await Promise.all(stockPromises);
-  } catch (error) {
-    console.error("Error checking stock:", error);
-    throw error;
+    console.error("Error al obtener producto por ID:", error);
+    return null;
   }
 };
