@@ -4,7 +4,7 @@ import { createOrder } from "../../firebase/services";
 import "./CheckoutForm.css";
 
 const CheckoutForm = ({ onOrderCreated }) => {
-  const { cart, getTotalPrice, clearCart } = useCart();
+  const { cart, totalPrice, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -38,7 +38,7 @@ const CheckoutForm = ({ onOrderCreated }) => {
           price: item.price,
           quantity: item.quantity,
         })),
-        total: getTotalPrice(),
+        total: totalPrice,
         date: new Date().toISOString(),
         status: "pending",
       };
@@ -46,8 +46,7 @@ const CheckoutForm = ({ onOrderCreated }) => {
       const orderId = await createOrder(orderData);
       onOrderCreated(orderId);
       clearCart();
-    } catch (err) {
-      console.error("Error creating order:", err);
+    } catch {
       setError("Hubo un error al procesar tu orden. Intenta nuevamente.");
     } finally {
       setLoading(false);
@@ -56,12 +55,12 @@ const CheckoutForm = ({ onOrderCreated }) => {
 
   const isFormValid = () => {
     return (
-      formData.name.trim() !== "" &&
-      formData.email.trim() !== "" &&
-      formData.phone.trim() !== "" &&
-      formData.address.trim() !== "" &&
-      formData.city.trim() !== "" &&
-      formData.zipCode.trim() !== ""
+      formData.name.trim() &&
+      formData.email.trim() &&
+      formData.phone.trim() &&
+      formData.address.trim() &&
+      formData.city.trim() &&
+      formData.zipCode.trim()
     );
   };
 
