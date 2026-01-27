@@ -1,0 +1,150 @@
+.checkout-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.checkout-empty h2 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+}
+
+.order-success {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 3rem;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.order-success h2 {
+  color: #27ae60;
+  margin-bottom: 1rem;
+}
+
+.order-id {
+  font-size: 1.2rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.order-message {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.checkout-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.checkout-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.checkout-header h1 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.checkout-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.checkout-content {
+  display: flex;
+  gap: 3rem;
+}
+
+.checkout-form-section {
+  flex: 2;
+}
+
+.checkout-summary {
+  flex: 1;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.checkout-summary h3 {
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #eee;
+}
+
+.order-items {
+  margin-bottom: 2rem;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.item-quantity {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 2px solid #eee;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.total-amount {
+  color: #e74c3c;
+  font-size: 1.4rem;
+}
+
+@media (max-width: 768px) {
+  .checkout-content {
+    flex-direction: column;
+  }
+
+  .checkout-summary {
+    position: static;
+    order: -1;
+  }
+}
