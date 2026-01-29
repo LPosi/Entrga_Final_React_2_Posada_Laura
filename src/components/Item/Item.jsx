@@ -10,11 +10,11 @@ const ItemListContainer = () => {
       {
         id: 1,
         Category: "Books",
-        Description: "Arte"
+        Description: "Arte",
         Image: "https://acdn-us.mitiendanube.com/stores/004/088/117/products/665254-8e4b6866026160967217292987517106-1024-1024.webp",
-        Price: 38299
-        Stock: 80
-        Title: "El Camino del Artista"
+        Price: 38299,
+        Stock: 80,
+        Title: "El Camino del Artista",
       },
       {
         id: 2,
