@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { filterProducts, sortProducts } from "../../utils/ProductUtils";
+import { filterProducts, sortProducts } from "../../utils/productUtils";
 import Item from "../Item/Item";
 import "./ItemList.css";
 
