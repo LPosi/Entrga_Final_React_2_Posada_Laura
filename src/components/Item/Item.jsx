@@ -9,63 +9,39 @@ const ItemListContainer = () => {
     const mockProducts = [
       {
         id: 1,
-        title: "iPhone 13",
-        price: 999.99,
-        description: "Smartphone de última generación",
-        category: "electronics",
-        image:
-          "https://images.unsplash.com/photo-1632661674596-df8be070d8c6?w=300",
-        stock: 10,
+        Category: "Books",
+        Description: "Arte"
+        Image: "https://acdn-us.mitiendanube.com/stores/004/088/117/products/665254-8e4b6866026160967217292987517106-1024-1024.webp",
+        Price: 38299
+        Stock: 80
+        Title: "El Camino del Artista"
       },
       {
         id: 2,
-        title: "Camiseta Básica",
-        price: 29.99,
-        description: "Camiseta de algodón 100%",
-        category: "clothing",
-        image:
-          "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300",
-        stock: 3,
+        Category: "Clothing",
+        Description: "Camiseta 100% algodón",
+        Price: 7000,
+        Stock: 100,
+        Title: "Camiseta Básica",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_743074-MLA105239755704_012026-F.webp",
       },
       {
         id: 3,
-        title: "El Principito",
-        price: 15.99,
-        description: "Libro clásico de Antoine de Saint-Exupéry",
-        category: "books",
-        image:
-          "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w-300",
-        stock: 25,
+        Category: "Electronics",
+        Description: "Smartphone Apple con Cámara Profesional",
+        Image: "https://http2.mlstatic.com/D_NQ_NP_2X_995082-MLA104668957585_012026-F.webp",
+        Price: 2999999,
+        Stock: 50,
+        Title: "Apple iPhone 17 Pro Max"
       },
       {
         id: 4,
-        title: "Auriculares Bluetooth",
-        price: 89.99,
-        description: "Auriculares con cancelación de ruido",
-        category: "electronics",
-        image:
-          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300",
-        stock: 15,
-      },
-      {
-        id: 5,
-        title: "Zapatillas Deportivas",
-        price: 129.99,
-        description: "Zapatillas para running",
-        category: "clothing",
-        image:
-          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300",
-        stock: 8,
-      },
-      {
-        id: 6,
-        title: "Cafetera Express",
-        price: 249.99,
-        description: "Cafetera automática para espresso",
-        category: "home",
-        image:
-          "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300",
-        stock: 0,
+        Category: "electronics",
+        Description: "Laptop Apple con chip M2",
+        Image: "https://http2.mlstatic.com/D_NQ_NP_2X_997020-MLA98773850565_112025-F.webp",
+        Price: 2885759,
+        Stock: 2,
+        Title: "MacBook Air M2"
       },
     ];
 
