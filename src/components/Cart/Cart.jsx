@@ -5,11 +5,15 @@ import "./Cart.css";
 
 const Cart = () => {
   const { cart, clearCart, getTotalItems, getTotalPrice } = useCart();
+  const totalPrice = getTotalPrice();
+  const totalItems = getTotalItems();
+  const TAX_RATE = 0.21;
+  const SHIPPING_COST = 5.99;
 
   if (cart.length === 0) {
     return (
       <div className="cart-empty">
-        <div className="empty-icon">🛒</div>
+        <div className="empty-icon" aria-label="Carrito vacío">🛒</div>
         <h3>Tu carrito está vacío</h3>
         <p>Agrega productos para comenzar a comprar</p>
         <a href="/products" className="btn-shop">
@@ -19,20 +23,19 @@ const Cart = () => {
     );
   }
 
+  const taxes = totalPrice * TAX_RATE;
+  const shipping = totalPrice >= 100 ? 0 : SHIPPING_COST;
+  const total = totalPrice + taxes + shipping;
+
   return (
     <div className="cart-container">
       <div className="cart-header">
         <div className="cart-title">
           <h2>Tu Carrito de Compras</h2>
-          <span className="items-count">{getTotalItems()} items</span>
+          <span className="items-count">{totalItems} items</span>
         </div>
-
         <button
-          onClick={() => {
-            if (window.confirm("¿Estás seguro de vaciar el carrito?")) {
-              clearCart();
-            }
-          }}
+          onClick={() => window.confirm("¿Estás seguro de vaciar el carrito?") && clearCart()}
           className="clear-cart-btn"
         >
           Vaciar carrito
@@ -49,54 +52,42 @@ const Cart = () => {
 
       <div className="cart-items-list">
         {cart.map((item) => (
-          <CartItem key={`${item.id}-${item.quantity}`} item={item} />
+          <CartItem key={item.id} item={item} />
         ))}
       </div>
 
       <div className="cart-summary">
         <div className="summary-row">
-          <span>Subtotal ({getTotalItems()} items)</span>
-          <span>{formatPrice(getTotalPrice())}</span>
+          <span>Subtotal ({totalItems} items)</span>
+          <span>{formatPrice(totalPrice)}</span>
         </div>
 
         <div className="summary-row">
           <span>Envío</span>
-          <span className="free-shipping">
-            {getTotalPrice() >= 100 ? "Gratis" : formatPrice(5.99)}
-          </span>
+          <span className="free-shipping">{shipping === 0 ? "Gratis" : formatPrice(shipping)}</span>
         </div>
 
-        {getTotalPrice() < 100 && (
+        {shipping > 0 && (
           <div className="shipping-note">
-            ¡Faltan {formatPrice(100 - getTotalPrice())} para envío gratis!
+            ¡Faltan {formatPrice(100 - totalPrice)} para envío gratis!
           </div>
         )}
 
         <div className="summary-row tax-row">
           <span>Impuestos (21%)</span>
-          <span>{formatPrice(getTotalPrice() * 0.21)}</span>
+          <span>{formatPrice(taxes)}</span>
         </div>
 
         <div className="summary-divider"></div>
 
         <div className="summary-total">
           <span>Total</span>
-          <span className="total-amount">
-            {formatPrice(
-              getTotalPrice() +
-                (getTotalPrice() >= 100 ? 0 : 5.99) +
-                getTotalPrice() * 0.21
-            )}
-          </span>
+          <span className="total-amount">{formatPrice(total)}</span>
         </div>
 
         <div className="summary-actions">
-          <a href="/checkout" className="checkout-btn">
-            Proceder al Pago
-          </a>
-          <a href="/products" className="continue-shopping">
-            ← Seguir comprando
-          </a>
+          <a href="/checkout" className="checkout-btn">Proceder al Pago</a>
+          <a href="/products" className="continue-shopping">← Seguir comprando</a>
         </div>
       </div>
     </div>
