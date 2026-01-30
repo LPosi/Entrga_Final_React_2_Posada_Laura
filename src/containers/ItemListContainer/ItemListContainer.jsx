@@ -12,8 +12,10 @@ const ItemListContainer = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        setLoading(true);
         let data = [];
 
         if (categoryId) {
@@ -22,22 +24,23 @@ const ItemListContainer = () => {
           data = await getProducts();
         }
 
-        if (!Array.isArray(data)) {
-          throw new Error("Los datos recibidos no son un array");
+        if (!Array.isArray(data) || data.length === 0) {
+          setError("No se encontraron productos.");
+          setProducts([]);
+        } else {
+          setProducts(
+            data.map(product => ({
+              ...product,
+              isNew: Math.random() > 0.7,
+              featured: Math.random() > 0.8,
+              rating: (Math.random() * 2 + 3).toFixed(1),
+              reviewCount: Math.floor(Math.random() * 100),
+              originalPrice: Math.random() > 0.3 ? null : product.price * 1.5
+            }))
+          );
         }
-
-        const productsWithDemoData = data.map((product) => ({
-          ...product,
-          isNew: Math.random() > 0.7,
-          featured: Math.random() > 0.8,
-          rating: (Math.random() * 2 + 3).toFixed(1),
-          reviewCount: Math.floor(Math.random() * 100),
-          originalPrice: Math.random() > 0.3 ? null : product.price * 1.5,
-        }));
-
-        setProducts(productsWithDemoData);
       } catch (err) {
-        console.error("Error fetching products:", err);
+        console.error("Error al cargar productos:", err);
         setError("Error al cargar los productos. Por favor, intenta nuevamente.");
       } finally {
         setLoading(false);
@@ -68,6 +71,14 @@ const ItemListContainer = () => {
     );
   }
 
+  if (products.length === 0) {
+    return (
+      <div className="no-products">
+        <h2>No hay productos disponibles</h2>
+      </div>
+    );
+  }
+
   return (
     <div className="item-list-container-page">
       <div className="container-header">
@@ -78,6 +89,7 @@ const ItemListContainer = () => {
         </h1>
         <p className="subtitle">{products.length} productos disponibles</p>
       </div>
+
       <ItemList products={products} />
     </div>
   );

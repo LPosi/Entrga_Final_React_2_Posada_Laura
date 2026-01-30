@@ -11,24 +11,26 @@ const ItemDetailContainer = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const data = await getProductById(productId);
-        if (!data) throw new Error("Producto no encontrado");
+        if (!data) {
+          setError("Producto no encontrado");
+          return;
+        }
         setProduct(data);
-      } catch (err) {
-        console.error("Error cargando producto:", err);
+      } catch {
         setError("No se pudo cargar el producto. Intenta nuevamente.");
       } finally {
         setLoading(false);
       }
     };
+
     fetchProduct();
   }, [productId]);
 
   if (loading) return <p>Cargando producto...</p>;
   if (error) return <p>{error}</p>;
-  if (!product) return <p>Producto no encontrado.</p>;
 
   return <ItemDetail product={product} />;
 };
