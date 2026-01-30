@@ -5,14 +5,14 @@ export const getProducts = async () => {
   try {
     const productsCollection = collection(db, "products");
     const snapshot = await getDocs(productsCollection);
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      name: doc.data().Title,
-      description: doc.data().Description,
-      category: doc.data().Category,
-      image: doc.data().Image,
-      price: doc.data().Price,
-      stock: doc.data().Stock
+    return snapshot.docs.map(docSnap => ({
+      id: docSnap.id,
+      title: docSnap.data().title,
+      description: docSnap.data().description,
+      category: docSnap.data().category,
+      image: docSnap.data().image,
+      price: docSnap.data().price,
+      stock: docSnap.data().stock
     }));
   } catch {
     return [];
@@ -22,16 +22,16 @@ export const getProducts = async () => {
 export const getProductsByCategory = async (categoryId) => {
   try {
     const productsCollection = collection(db, "products");
-    const q = query(productsCollection, where("Category", "==", categoryId));
+    const q = query(productsCollection, where("category", "==", categoryId));
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      name: doc.data().Title,
-      description: doc.data().Description,
-      category: doc.data().Category,
-      image: doc.data().Image,
-      price: doc.data().Price,
-      stock: doc.data().Stock
+    return snapshot.docs.map(docSnap => ({
+      id: docSnap.id,
+      title: docSnap.data().title,
+      description: docSnap.data().description,
+      category: docSnap.data().category,
+      image: docSnap.data().image,
+      price: docSnap.data().price,
+      stock: docSnap.data().stock
     }));
   } catch {
     return [];
@@ -45,12 +45,12 @@ export const getProductById = async (productId) => {
     if (!snapshot.exists()) return null;
     return {
       id: snapshot.id,
-      name: snapshot.data().Title,
-      description: snapshot.data().Description,
-      category: snapshot.data().Category,
-      image: snapshot.data().Image,
-      price: snapshot.data().Price,
-      stock: snapshot.data().Stock
+      title: snapshot.data().title,
+      description: snapshot.data().description,
+      category: snapshot.data().category,
+      image: snapshot.data().image,
+      price: snapshot.data().price,
+      stock: snapshot.data().stock
     };
   } catch {
     return null;
